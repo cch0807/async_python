@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "cch-async-python"
+version = "0.1.0"
+description = "practice async python with fastapi"
+authors = ["cch0807 <ckdgus11021@gmail.com>"]
+readme = "README.md"
+packages = [{include = "cch_async_python"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+black = "^22.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
