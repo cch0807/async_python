@@ -1,4 +1,4 @@
-import requests
+import requests  # F401
 import time
 import aiohttp
 import asyncio
