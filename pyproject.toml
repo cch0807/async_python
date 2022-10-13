@@ -12,6 +12,7 @@ black = "^22.10.0"
 requests = "^2.28.1"
 flake8 = "^5.0.4"
 aiohttp = "^3.8.3"
+beautifulsoup4 = "^4.11.1"
 
 
 [build-system]
