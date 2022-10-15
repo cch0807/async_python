@@ -6,10 +6,11 @@
 from bs4 import BeautifulSoup
 import aiohttp
 import asyncio
+from config import get_secret
 
 
 async def fetch(session, url):
-    async with session.get(url, headers=headers) as response:
+    async with session.get(url, headers=get_secret("NAVER_API_ID")) as response:
         result = await response.json()
         items = result["items"]
         images = [item["link"] for item in items]
