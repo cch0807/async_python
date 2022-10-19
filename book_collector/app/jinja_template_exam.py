@@ -12,8 +12,9 @@ app = FastAPI()
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
-@app.get("/", response_class=HTMLResponse)
-async def read_item(request: Request):
+@app.get("/items/{id}", response_class=HTMLResponse)
+async def read_item(request: Request, id: str):
+    print(request.headers)
     return templates.TemplateResponse(
-        "./index.html", {"request": request, "title": "Collector"}
+        "./item.html", {"request": request, "id": id, "data": "hello fastapi"}
     )
