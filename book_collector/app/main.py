@@ -17,3 +17,11 @@ async def read_item(request: Request):
     return templates.TemplateResponse(
         "./index.html", {"request": request, "title": "Collector"}
     )
+
+
+@app.get("/search", response_class=HTMLResponse)
+async def search(request: Request, q: str):
+    print(q)
+    return templates.TemplateResponse(
+        "./index.html", {"request": request, "title": "Collector", "keyword": q}
+    )
