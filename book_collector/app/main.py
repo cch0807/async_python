@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
 from ..models import mongodb
+from ..models.book import BookModel
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -16,7 +16,8 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
 @app.get("/", response_class=HTMLResponse)
-async def read_item(request: Request):
+async def root(request: Request):
+    book = BookModel()
     return templates.TemplateResponse(
         "./index.html", {"request": request, "title": "Collector"}
     )
@@ -32,12 +33,10 @@ async def search(request: Request, q: str):
 
 @app.on_event("startup")
 def on_app_start():
-    print("start server")
     """before app starts"""
     mongodb.connect()
 
 
 @app.on_event("shutdown")
-async def on_app_shutdown():
-    # await mongodb.close()
-    print("end server")
+def on_app_shutdown():
+    mongodb.close()
