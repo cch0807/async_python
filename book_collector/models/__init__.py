@@ -17,5 +17,9 @@ class MongoDB:
         self.engine = AIOEngine(self.client, database=MONGO_DB_NAME)
         print("DB 연결 성공")
 
+    def close(self):
+        self.client.close()
+        print("DB 연결 해제")
+
 
 mongodb = MongoDB()
