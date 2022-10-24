@@ -17,7 +17,8 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    book = BookModel()
+    # book = BookModel(keyword="파이썬", publisher="BJPulbic", price=1200, image="me.png")
+    # print(await mongodb.engine.save(book))  # DB에 저장
     return templates.TemplateResponse(
         "./index.html", {"request": request, "title": "Collector"}
     )
