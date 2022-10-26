@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 print(BASE_DIR)
 
-app = FastAPI()
+app = FastAPI(title="데이터 수집용", version="0.0.1")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
@@ -27,21 +27,23 @@ async def root(request: Request):
 
 
 @app.get("/search", response_class=HTMLResponse)
-async def search(request: Request, q: str):
-    keyword = q
+async def search(request: Request):
+    keyword = request.query_params.get("q")
     naver_book_scraper = NaverBookScraper()
     books = await naver_book_scraper.search(keyword, 10)
+    book_models = []
+    for book in books:
+        book_model = BookModel(
+            keyword=keyword,
+            discount=book["discount"],
+            publisher=book["publisher"],
+            image=book["image"],
+        )
+        book_models.append(book_model)
+    await mongodb.engine.save_all(book_models)
 
-    # for book in books:
-    #     book_model = BookModel(
-    #         keyword=keyword,
-    #         price=book["price"],
-    #         publisher=book["publisher"],
-    #         image=book["image"],
-    #     )
-    # print(book_model)
     return templates.TemplateResponse(
-        "./index.html", {"request": request, "title": "Collector", "keyword": q}
+        "./index.html", {"request": request, "title": "Collector", "keyword": keyword}
     )
 
 
