@@ -8,8 +8,8 @@ from odmantic import Model
 
 class BookModel(Model):
     keyword: str
-    publisher: str
     price: int
+    publisher: str
     image: str
 
     class Config:

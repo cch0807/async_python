@@ -1,6 +1,8 @@
 import asyncio
 import aiohttp
-from .config import get_secret
+
+from config import get_secret
+import os
 
 
 class NaverBookScraper:
@@ -13,7 +15,7 @@ class NaverBookScraper:
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
                 result = await response.json()
-                return result
+                return result["items"]
 
     def unit_url(self, keyword, start):
         return {
@@ -34,18 +36,19 @@ class NaverBookScraper:
                 ]
             )
             print(all_data)
-            result = []
-            for data in all_data:
-                if data is not None:
-                    for book in data:
-                        result.append(book)
+            # result = []
+            # for data in all_data:
+            #     if data is not None:
+            #         for book in data:
+            #             result.append(book)
 
-            return result
+            # return result
 
-    async def run(self, keyword, total_page):
+    def run(self, keyword, total_page):
         return asyncio.run(self.search(keyword, total_page))
 
 
 if __name__ == "__main__":
     scraper = NaverBookScraper()
-    scraper.run("파이썬", 1)
+    scraper.run("파이썬", 3)
+    print(os.getcwd())
