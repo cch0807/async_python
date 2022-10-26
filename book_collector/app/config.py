@@ -29,5 +29,5 @@ NAVER_API_SECRET = get_secret("NAVER_API_SECRET")
 
 if __name__ == "__main__":
     print(BASE_DIR)
-    world = get_secret("world")
-    print(world)
+    # world = get_secret("world")
+    # print(world)

@@ -3,8 +3,10 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
+
 from ..models import mongodb
 from ..models.book import BookModel
+from .book_scraper import NaverBookScraper
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,7 +28,18 @@ async def root(request: Request):
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, q: str):
-    print(q)
+    keyword = q
+    naver_book_scraper = NaverBookScraper()
+    books = await naver_book_scraper.search(keyword, 10)
+
+    # for book in books:
+    #     book_model = BookModel(
+    #         keyword=keyword,
+    #         price=book["price"],
+    #         publisher=book["publisher"],
+    #         image=book["image"],
+    #     )
+    # print(book_model)
     return templates.TemplateResponse(
         "./index.html", {"request": request, "title": "Collector", "keyword": q}
     )
