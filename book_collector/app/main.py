@@ -43,7 +43,7 @@ async def search(request: Request):
     await mongodb.engine.save_all(book_models)
 
     return templates.TemplateResponse(
-        "./index.html", {"request": request, "title": "Collector", "keyword": keyword}
+        "./index.html", {"request": request, "title": "Collector", "books": books}
     )
 
 
