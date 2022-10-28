@@ -67,4 +67,5 @@ def on_app_start():
 
 @app.on_event("shutdown")
 def on_app_shutdown():
+    """after app shutdown"""
     mongodb.close()
