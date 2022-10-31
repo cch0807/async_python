@@ -1,4 +1,5 @@
 import asyncio
+import concurrent.futures
 import time
 
 # # task가 1개이므로 동기 프로그래밍과 크게 다르지 않다.
@@ -117,3 +118,40 @@ async def main():
 # awaitable
 # await 표현식에서 사용할 수 있는 객체를 awaitable 객체라고 한다.
 # 이러한 객체는 코루틴(coroutine), 테스크(task), 퓨처(future)가 있다.
+
+# 코루틴
+# 코루틴은 awaitable 객체이므로 다른 코루틴에서 호출할 수 있다.
+
+
+async def nested():
+    print(87)
+
+
+async def main():
+    # 코루틴 함수를 await을 안붙이고 호출하면 호출되지 않음
+    # 모루틴은 생성이 되지만 await하지 않음 -> 그래서 아무것도 실행 X
+    nested()
+
+    # nested() 함수가 동시에 실행되도록 예약
+    task = asyncio.create_task(nested())
+
+    # 87 반환됨
+    await nested()
+
+    # task 변수를 취소하거나 완료될때까지 대기
+    await task
+
+
+# asyncio.run(main())
+
+# 위에서 코루틴이란 용어는 코루틴 함수와 코루틴 객체라는 두 의미를 내포하는 것을 알 수 있다.
+# 코루틴 함수 - async def ~~ 로 정의된 함수
+# 코루틴 객체: 코루틴 함수를 호출하고 반환되는 객체
+
+# 퓨처(future)
+# 퓨처는 비동기 연산의 최종 결과를 나타내는 저수준 awaitable 객체이다.
+# 현재까지 asyncio를 사용하는데 퓨처 객체를 어디서 사용해야 되는지 정확하게 이해가 되지 않는다.
+# asyncio와 퓨처를 사용하는 좋은 예는 loop.run_in_executor() 이다.
+
+def blocking_io():
+    
